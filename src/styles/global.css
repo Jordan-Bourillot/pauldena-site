@@ -93,7 +93,8 @@ body.sidebar-layout .container {
 }
 @media (max-width: 800px) {
   body.sidebar-layout .container {
-    padding-left: calc(66px + 1.6rem + 1.5rem);
+    padding-left: calc(52px + 0.8rem + 1rem);
+    padding-right: 1rem;
   }
 }
 
