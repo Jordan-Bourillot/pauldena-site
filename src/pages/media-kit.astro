@@ -1,0 +1,317 @@
+---
+import Base from "../layouts/Base.astro";
+import Reveal from "../components/Reveal.astro";
+import CountUp from "../components/CountUp.astro";
+import { profile, record } from "../data/profile";
+
+const bioCourt = `Paul Denis Navero (Paul Dena), 23 ans. Combattant MMA professionnel chez Hexagone MMA, ${record.pro.w}-${record.pro.l}-${record.pro.d}, 100 % de finish. Record du KO le plus rapide de l'histoire d'Hexagone MMA (5 secondes). Créateur de contenu suivi par plus de 800 000 personnes.`;
+
+const bioLong = `Paul Denis Navero, alias Paul Dena, est né en 2002 à Rennes et s'entraîne aujourd'hui à Colmar. Ceinture noire de judo, il bascule à l'adolescence vers la boxe et le MMA. Champion de France amateur en 2023, médaille de bronze aux Championnats d'Europe IMMAF en 2024, il passe professionnel en mai 2025 à l'Arkéa Arena de Bordeaux. Trois combats pros, trois victoires par KO ou TKO, dont deux au Zénith Paris-La Villette. Le 14 septembre 2024 à Colmar, il signe le KO le plus rapide de l'histoire d'Hexagone MMA — 5 secondes face à Alex Andrews. Parallèlement à sa carrière de combattant, il documente son parcours sur YouTube, Instagram et TikTok depuis 2019, fédérant aujourd'hui une communauté de plus de 800 000 abonnés cumulés. Sa marque de fabrique : la transparence intégrale et une mentalité d'entrepreneur appliquée au combat.`;
+
+const downloadable = [
+  { label: "Brand sheet — logo & charte (PNG)", href: "/brand/paul-dena-brand-sheet.png", note: "Planche complète : signet, wordmark, déclinaisons, applications" },
+  { label: "Signet hexagonal — 512 px (PNG)",   href: "/brand/symbol-square.png",         note: "Mark seul, noir sur blanc — usage favicon, avatar, patch" },
+  { label: "Signet inversé — 512 px (PNG)",     href: "/brand/symbol-square-inv.png",     note: "Mark blanc sur fond noir — usage sur fonds sombres" },
+  { label: "Lockup horizontal — sur fond noir", href: "/brand/lockup-dark.png",           note: "Mark + wordmark, fond noir" },
+  { label: "Lockup horizontal — sur fond rouge",href: "/brand/lockup-red.png",            note: "Mark + wordmark, fond rouge sang" },
+  { label: "Hero banner",                       href: "/brand/hero-banner.png",           note: "Composition prête à l'emploi (header / cover)" },
+  { label: "Press kit complet (PDF)",           href: "#",                                note: "À venir — contacter presse@pauldena.fr" },
+  { label: "Photos HD (ZIP)",                   href: "#",                                note: "À venir — contacter presse@pauldena.fr" },
+];
+---
+
+<Base
+  title={`Media Kit — ${profile.nickname}`}
+  description="Toutes les infos clés sur Paul Dena pour la presse et les sponsors : bio, audience, palmarès, photos."
+>
+  <section class="page-header section">
+    <div class="container">
+      <Reveal>
+        <span class="eyebrow">Media Kit</span>
+        <h1>Tout ce qu'il faut pour parler de Paul Dena</h1>
+        <p class="lead">
+          Bio courte, bio longue, audience, palmarès, photos, contacts presse — en accès libre.
+          Pour toute demande spécifique, écris à
+          {" "}<a href="mailto:presse@pauldena.fr" class="lead-link">presse@pauldena.fr</a>.
+        </p>
+      </Reveal>
+    </div>
+  </section>
+
+  <section class="section quick-stats">
+    <div class="container">
+      <div class="kit-stats">
+        <Reveal class="kit-stat" delay={0}>
+          <span class="kit-num"><CountUp to={record.pro.w} /></span>
+          <span class="kit-label">Victoires pro</span>
+        </Reveal>
+        <Reveal class="kit-stat" delay={70}>
+          <span class="kit-num"><CountUp to={100} suffix="%" /></span>
+          <span class="kit-label">Taux de finish</span>
+        </Reveal>
+        <Reveal class="kit-stat" delay={140}>
+          <span class="kit-num"><CountUp to={5} suffix="s" /></span>
+          <span class="kit-label">Record KO Hexagone</span>
+        </Reveal>
+        <Reveal class="kit-stat" delay={210}>
+          <span class="kit-num"><CountUp to={814} suffix="K" /></span>
+          <span class="kit-label">Audience cumulée</span>
+        </Reveal>
+      </div>
+    </div>
+  </section>
+
+  <section class="section bio-section">
+    <div class="container">
+      <Reveal>
+        <h2>Bio</h2>
+      </Reveal>
+      <Reveal class="bio-card" delay={80}>
+        <h3>Bio courte (≈ 50 mots)</h3>
+        <p>{bioCourt}</p>
+        <button class="copy-btn" data-copy={bioCourt}>Copier</button>
+      </Reveal>
+      <Reveal class="bio-card" delay={160}>
+        <h3>Bio longue (≈ 200 mots)</h3>
+        <p>{bioLong}</p>
+        <button class="copy-btn" data-copy={bioLong}>Copier</button>
+      </Reveal>
+    </div>
+  </section>
+
+  <section class="section infos-section">
+    <div class="container infos-grid">
+      <Reveal class="info-block">
+        <h3>État civil & sport</h3>
+        <dl>
+          <div><dt>Nom</dt><dd>{profile.name}</dd></div>
+          <div><dt>Alias</dt><dd>{profile.nickname}</dd></div>
+          <div><dt>Né en</dt><dd>{profile.birthYear}</dd></div>
+          <div><dt>Origine</dt><dd>Rennes</dd></div>
+          <div><dt>Camp</dt><dd>{profile.city}</dd></div>
+          <div><dt>Équipe</dt><dd>{profile.team}</dd></div>
+          <div><dt>Catégorie</dt><dd>{profile.weightClass}</dd></div>
+          <div><dt>Taille</dt><dd>{profile.height}</dd></div>
+          <div><dt>Garde</dt><dd>{profile.stance}</dd></div>
+          <div><dt>Disciplines</dt><dd>{profile.disciplines.join(", ")}</dd></div>
+        </dl>
+      </Reveal>
+      <Reveal class="info-block" delay={120}>
+        <h3>Réseaux officiels</h3>
+        <ul class="socials-list">
+          <li><span>Instagram</span><a href="https://www.instagram.com/pauldenisnavero/" target="_blank" rel="noopener noreferrer">@pauldenisnavero</a></li>
+          <li><span>YouTube</span><a href="https://www.youtube.com/@pauldenisnavero" target="_blank" rel="noopener noreferrer">@pauldenisnavero</a></li>
+          <li><span>TikTok</span><a href="https://www.tiktok.com/@pauldenisnavero" target="_blank" rel="noopener noreferrer">@pauldenisnavero</a></li>
+          <li><span>X (Twitter)</span><a href="https://x.com/pauldenismma" target="_blank" rel="noopener noreferrer">@PauldenisMMA</a></li>
+        </ul>
+      </Reveal>
+    </div>
+  </section>
+
+  <section class="section downloads-section">
+    <div class="container">
+      <Reveal><h2>Téléchargements</h2></Reveal>
+      <div class="downloads">
+        {downloadable.map((d, i) => {
+          const Tag = d.href === "#" ? "div" : "a";
+          return (
+            <Reveal delay={i * 50}>
+              <Tag class:list={["download", { "download-disabled": d.href === "#" }]} href={d.href !== "#" ? d.href : undefined} download={d.href !== "#" ? "" : undefined} target={d.href !== "#" ? "_blank" : undefined} rel={d.href !== "#" ? "noopener" : undefined}>
+                <span class="dl-icon" aria-hidden="true">⬇</span>
+                <div class="dl-body">
+                  <strong>{d.label}</strong>
+                  <span class="dl-note">{d.note}</span>
+                </div>
+              </Tag>
+            </Reveal>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <section class="section contact-cta">
+    <div class="container">
+      <Reveal>
+        <h2>Une demande spécifique ?</h2>
+        <p>Photo non listée, interview, accès vestiaire, droit de citation… écris-nous.</p>
+        <div class="cta-row">
+          <a href="mailto:presse@pauldena.fr" class="btn">presse@pauldena.fr</a>
+          <a href="/contact" class="btn btn-ghost">Formulaire de contact</a>
+        </div>
+      </Reveal>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page-header { padding-top: 4rem; padding-bottom: 2rem; }
+  .eyebrow {
+    display: inline-block;
+    font-family: var(--font-display);
+    color: var(--accent);
+    letter-spacing: 0.22em;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+  }
+  .lead { color: var(--text-dim); font-size: 1.15rem; max-width: 48rem; margin-top: 1rem; line-height: 1.6; }
+  .lead-link { color: var(--accent); font-weight: 600; }
+
+  .quick-stats { padding-top: 0; padding-bottom: 3rem; }
+  .kit-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+  }
+  .kit-stat {
+    padding: 1.75rem 1rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+  }
+  .kit-num {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 3rem;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .kit-label {
+    display: block;
+    margin-top: 0.4rem;
+    color: var(--text-dim);
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .bio-section { background: var(--bg-elevated); }
+  .bio-card {
+    background: var(--bg-card);
+    padding: 1.75rem 2rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-top: 1.5rem;
+    position: relative;
+    box-shadow: var(--shadow-sm);
+  }
+  .bio-card h3 { font-size: 1.05rem; margin-bottom: 0.75rem; color: var(--text); }
+  .bio-card p { color: var(--text); line-height: 1.7; }
+  .copy-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.4rem 0.8rem;
+    background: var(--bg-elevated);
+    color: var(--text-dim);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-family: var(--font-body);
+    transition: all 0.15s ease;
+  }
+  .copy-btn:hover { color: var(--text); border-color: var(--accent); }
+  .copy-btn.copied { background: var(--accent); color: white; border-color: var(--accent); }
+
+  .infos-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 2rem;
+  }
+  @media (max-width: 800px) { .infos-grid { grid-template-columns: 1fr; } }
+  .info-block {
+    background: var(--bg-card);
+    padding: 1.75rem 2rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+  }
+  .info-block h3 { font-size: 1.05rem; margin-bottom: 1rem; }
+  .info-block dl div {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .info-block dl div:last-child { border-bottom: none; }
+  .info-block dt { color: var(--text-dim); font-size: 0.9rem; }
+  .info-block dd { font-weight: 600; text-align: right; }
+  .socials-list { list-style: none; padding: 0; }
+  .socials-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.65rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .socials-list li:last-child { border-bottom: none; }
+  .socials-list span { color: var(--text-dim); font-size: 0.9rem; }
+  .socials-list a { color: var(--accent); font-weight: 600; }
+
+  .downloads-section { background: var(--bg-elevated); }
+  .downloads {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  .download {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    color: var(--text);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+  a.download:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--accent);
+    color: var(--text);
+  }
+  .download-disabled { opacity: 0.6; cursor: not-allowed; }
+  .dl-icon {
+    font-size: 1.6rem;
+    color: var(--accent);
+  }
+  .dl-body { display: flex; flex-direction: column; gap: 0.2rem; }
+  .dl-body strong { color: var(--text); font-weight: 600; }
+  .dl-note { color: var(--text-dim); font-size: 0.82rem; }
+
+  .contact-cta {
+    background:
+      radial-gradient(ellipse at center, rgba(220, 38, 38, 0.14), transparent 70%),
+      var(--bg);
+    text-align: center;
+  }
+  .contact-cta h2 { margin-bottom: 1rem; }
+  .contact-cta p { color: var(--text-dim); margin-bottom: 2rem; }
+  .cta-row { display: flex; justify-content: center; gap: 0.8rem; flex-wrap: wrap; }
+</style>
+
+<script is:inline>
+  (function() {
+    document.querySelectorAll('.copy-btn').forEach((b) => {
+      b.addEventListener('click', async () => {
+        const t = b.dataset.copy || '';
+        try {
+          await navigator.clipboard.writeText(t);
+          b.classList.add('copied');
+          const orig = b.textContent;
+          b.textContent = 'Copié ✓';
+          setTimeout(() => { b.classList.remove('copied'); b.textContent = orig; }, 1600);
+        } catch (e) { console.warn(e); }
+      });
+    });
+  })();
+</script>

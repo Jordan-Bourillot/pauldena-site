@@ -1,0 +1,44 @@
+---
+interface Props {
+  to: number;
+  suffix?: string;
+  prefix?: string;
+  duration?: number;
+  decimals?: number;
+}
+const { to, suffix = "", prefix = "", duration = 1400, decimals = 0 } = Astro.props;
+---
+<span class="countup" data-to={to} data-duration={duration} data-decimals={decimals} data-prefix={prefix} data-suffix={suffix}>{prefix}0{suffix}</span>
+
+<script is:inline>
+  (function() {
+    if (window.__countupInit) return;
+    window.__countupInit = true;
+    function animate(el) {
+      const to = parseFloat(el.dataset.to || '0');
+      const dur = parseInt(el.dataset.duration || '1400', 10);
+      const decimals = parseInt(el.dataset.decimals || '0', 10);
+      const prefix = el.dataset.prefix || '';
+      const suffix = el.dataset.suffix || '';
+      const start = performance.now();
+      function step(now) {
+        const t = Math.min((now - start) / dur, 1);
+        const eased = 1 - Math.pow(1 - t, 3);
+        const val = (to * eased).toFixed(decimals);
+        el.textContent = prefix + val + suffix;
+        if (t < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) { animate(e.target); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.4 });
+    function bind() {
+      document.querySelectorAll('.countup').forEach((el) => io.observe(el));
+    }
+    bind();
+    document.addEventListener('astro:page-load', bind);
+  })();
+</script>

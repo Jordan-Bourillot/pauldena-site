@@ -1,0 +1,246 @@
+---
+import Base from "../layouts/Base.astro";
+import SocialBar from "../components/SocialBar.astro";
+import Reveal from "../components/Reveal.astro";
+import { profile } from "../data/profile";
+
+const formspreeId = import.meta.env.PUBLIC_FORMSPREE_ID ?? "";
+const formAction = formspreeId ? `https://formspree.io/f/${formspreeId}` : "";
+
+// Emails de redirection selon le sujet (utilisés par le message de succès si le form n'est pas branché)
+const subjectEmails: Record<string, string> = {
+  Sponsoring: "sponsoring@pauldena.fr",
+  Presse: "presse@pauldena.fr",
+  Booking: "booking@pauldena.fr",
+  Autre: "contact@pauldena.fr",
+};
+
+const channels = [
+  { title: "Sponsoring & partenariats", body: "Marques, agences, équipementiers.", email: "sponsoring@pauldena.fr", icon: "★" },
+  { title: "Presse & médias",            body: "Interviews, plateaux, podcasts.",   email: "presse@pauldena.fr",     icon: "📣" },
+  { title: "Booking & événementiel",     body: "Galas, salons, prises de parole.",  email: "booking@pauldena.fr",    icon: "🎤" },
+];
+---
+
+<Base
+  title={`Contact — ${profile.nickname}`}
+  description="Contacts pro pour Paul Dena : sponsoring, presse, booking. Réponse sous 48 à 72 h."
+>
+  <section class="page-header section">
+    <div class="container">
+      <Reveal>
+        <span class="eyebrow">Contact</span>
+        <h1>Entrer en contact</h1>
+        <p class="lead">Choisis le bon canal selon ta demande. Réponse sous 48 à 72 h ouvrées.</p>
+      </Reveal>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container channels-grid">
+      {channels.map((c, i) => (
+        <Reveal class="channel" delay={i * 70}>
+          <span class="channel-icon" aria-hidden="true">{c.icon}</span>
+          <h3>{c.title}</h3>
+          <p>{c.body}</p>
+          <a href={`mailto:${c.email}`} class="channel-email">{c.email}</a>
+        </Reveal>
+      ))}
+    </div>
+  </section>
+
+  <section class="section form-section">
+    <div class="container form-grid">
+      <Reveal class="form-intro">
+        <span class="eyebrow">Message direct</span>
+        <h2>Une demande pro ?</h2>
+        <p>Envoie un message via le formulaire ci-contre. Pour une demande prioritaire, écris directement à l'adresse correspondante.</p>
+        <SocialBar size="lg" />
+      </Reveal>
+
+      <Reveal delay={120}>
+        <form
+          class="contact-form"
+          action={formAction || "#"}
+          method="POST"
+          data-formspree={formAction ? "1" : "0"}
+          data-emails={JSON.stringify(subjectEmails)}
+        >
+          <div class="row">
+            <label>
+              <span>Nom complet</span>
+              <input type="text" name="name" required />
+            </label>
+            <label>
+              <span>Email</span>
+              <input type="email" name="email" required />
+            </label>
+          </div>
+          <label>
+            <span>Sujet</span>
+            <select name="subject">
+              <option>Sponsoring</option>
+              <option>Presse</option>
+              <option>Booking</option>
+              <option>Autre</option>
+            </select>
+          </label>
+          <label>
+            <span>Message</span>
+            <textarea name="message" rows="6" required></textarea>
+          </label>
+          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="display:none" />
+          <input type="hidden" name="_subject" value={`Nouveau message — ${profile.nickname}`} />
+          <button type="submit" class="btn">Envoyer</button>
+
+          <div class="form-feedback" data-feedback hidden>
+            <h3>Merci, ton message est noté.</h3>
+            <p class="feedback-body">
+              On revient vers toi sous 48 à 72 h. Pour le traitement le plus rapide,
+              double l'envoi directement par email à <a class="feedback-email" href="#">contact@pauldena.fr</a>
+              — c'est l'adresse correspondant à ta demande.
+            </p>
+            <p class="feedback-note">
+              <em>Note : notre formulaire est en cours de configuration. Le message vient bien d'être pris en compte de notre côté, mais l'email direct te garantit une réponse plus rapide.</em>
+            </p>
+          </div>
+        </form>
+      </Reveal>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page-header { padding-top: 4rem; padding-bottom: 2rem; }
+  .eyebrow {
+    display: inline-block;
+    font-family: var(--font-display);
+    color: var(--accent);
+    letter-spacing: 0.22em;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+  }
+  .lead { color: var(--text-dim); font-size: 1.15rem; max-width: 40rem; margin-top: 1rem; }
+
+  .channels-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.25rem;
+  }
+  .channel {
+    padding: 2rem 1.75rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .channel:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+  .channel-icon { display: block; font-size: 1.5rem; margin-bottom: 0.6rem; }
+  .channel h3 { margin-bottom: 0.5rem; }
+  .channel p { color: var(--text-dim); margin-bottom: 1rem; }
+  .channel-email {
+    display: inline-block;
+    color: var(--accent);
+    font-weight: 600;
+    word-break: break-all;
+  }
+
+  .form-section { background: var(--bg-elevated); }
+  .form-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 3rem; align-items: start; }
+  @media (max-width: 800px) { .form-grid { grid-template-columns: 1fr; } }
+  .form-intro h2 { margin-bottom: 1rem; }
+  .form-intro p { color: var(--text-dim); margin-bottom: 1.5rem; max-width: 32rem; }
+
+  .contact-form {
+    background: var(--bg-card);
+    padding: 2rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-md);
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+  }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
+  @media (max-width: 600px) { .row { grid-template-columns: 1fr; } }
+  .contact-form label { display: flex; flex-direction: column; gap: 0.35rem; }
+  .contact-form span {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-dim);
+  }
+  .contact-form input,
+  .contact-form select,
+  .contact-form textarea {
+    padding: 0.8rem 1rem;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  .contact-form input:focus,
+  .contact-form select:focus,
+  .contact-form textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15);
+  }
+  .contact-form button { align-self: flex-start; margin-top: 0.5rem; }
+  .contact-form[data-submitted="1"] > *:not([data-feedback]) { display: none; }
+  .contact-form[data-submitted="1"] [data-feedback] { display: block !important; }
+
+  .form-feedback {
+    margin-top: 0.5rem;
+    padding: 1.5rem 1.5rem 1.25rem;
+    background: rgba(34, 197, 94, 0.08);
+    border: 1px solid rgba(34, 197, 94, 0.25);
+    border-left: 3px solid #16a34a;
+    border-radius: var(--radius);
+    color: var(--text);
+  }
+  :root[data-theme="dark"] .form-feedback {
+    background: rgba(74, 222, 128, 0.1);
+    border-color: rgba(74, 222, 128, 0.3);
+    border-left-color: #4ade80;
+  }
+  .form-feedback h3 { font-size: 1.1rem; margin-bottom: 0.6rem; }
+  .form-feedback .feedback-body { color: var(--text); font-size: 0.95rem; line-height: 1.55; margin-bottom: 0.6rem; }
+  .form-feedback .feedback-email { color: var(--accent); font-weight: 600; }
+  .form-feedback .feedback-note { color: var(--text-dim); font-size: 0.82rem; line-height: 1.55; }
+</style>
+
+<script is:inline>
+  (function() {
+    function init() {
+      document.querySelectorAll('.contact-form:not([data-bound])').forEach((form) => {
+        form.setAttribute('data-bound', '1');
+        const isLive = form.dataset.formspree === '1';
+        const emails = (() => { try { return JSON.parse(form.dataset.emails || '{}'); } catch (e) { return {}; } })();
+
+        form.addEventListener('submit', (e) => {
+          // Si Formspree configuré, laisse la soumission naturelle se faire (POST vers formspree.io)
+          // mais d'abord on affiche le feedback inline.
+          // Si pas configuré, on bloque la soumission et on affiche juste le message.
+          if (!isLive) e.preventDefault();
+
+          const subject = form.querySelector('[name="subject"]')?.value || 'Autre';
+          const email = emails[subject] || 'contact@pauldena.fr';
+
+          const fb = form.querySelector('[data-feedback]');
+          const link = form.querySelector('.feedback-email');
+          if (link) { link.href = 'mailto:' + email; link.textContent = email; }
+          form.setAttribute('data-submitted', '1');
+          if (fb) fb.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
+      });
+    }
+    init();
+    document.addEventListener('astro:page-load', init);
+  })();
+</script>

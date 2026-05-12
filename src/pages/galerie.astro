@@ -1,0 +1,322 @@
+---
+import Base from "../layouts/Base.astro";
+import Reveal from "../components/Reveal.astro";
+import { profile } from "../data/profile";
+
+type Photo = { src: string; caption: string; cat: "Portrait" | "Combat" | "Training" | "Lifestyle" | "Promo" };
+
+const photos: Photo[] = [
+  // Portraits / hero
+  { src: "/photos/hero-portrait.jpg",  caption: "Portrait — Strasbourg, 2026",     cat: "Portrait" },
+  { src: "/photos/hero-flag.jpg",      caption: "Walkout — drapeau",                cat: "Combat" },
+  { src: "/photos/hero-corridor.jpg",  caption: "Backstage — corridor",             cat: "Combat" },
+  { src: "/photos/hero-cage.jpg",      caption: "Dans la cage",                     cat: "Combat" },
+  { src: "/photos/training-bag.jpg",   caption: "Training — sac lourd",             cat: "Training" },
+  { src: "/photos/walkout.jpg",        caption: "Walk-out — Hexagone MMA",          cat: "Combat" },
+  { src: "/photos/faceoff-paris.jpg",  caption: "Face-off — Sacré-Cœur, Paris",     cat: "Combat" },
+  { src: "/photos/trail-run.jpg",      caption: "Off-camp — trail running",         cat: "Training" },
+  { src: "/photos/paul-paris.jpg",     caption: "Paris — Ici c'est Paris",          cat: "Lifestyle" },
+  { src: "/photos/colmar.jpg",         caption: "Colmar — quotidien",               cat: "Lifestyle" },
+  { src: "/photos/street.jpg",         caption: "Interview street",                 cat: "Lifestyle" },
+  { src: "/photos/travel.jpg",         caption: "En déplacement — fight week",      cat: "Lifestyle" },
+
+  // Promos Hexagone MMA
+  { src: "/photos/promo-anzor.jpg",      caption: "Hexagone 45 — vs Anzor Baybatyrov · 12 juin 2026 · Lyon", cat: "Promo" },
+  { src: "/photos/promo-santos.jpg",     caption: "Hexagone 37 — vs Paulo Santos · Zénith Paris",            cat: "Promo" },
+  { src: "/photos/promo-andrews.jpg",    caption: "Hexagone — vs Alex Andrews · Colmar · KO 5 s",            cat: "Promo" },
+  { src: "/photos/promo-paris-h34.jpg",  caption: "Hexagone 34 — Zénith Paris",                              cat: "Promo" },
+  { src: "/photos/promo-amateur.jpg",    caption: "Dernier combat amateur — Zénith Paris",                   cat: "Promo" },
+  { src: "/photos/promo-cards.jpg",      caption: "Amateur → Professionnel",                                  cat: "Promo" },
+  { src: "/photos/promo-orange.jpg",     caption: "Premier combat à Orange — 25 juillet 2024",               cat: "Promo" },
+
+  // Galerie IG variée
+  { src: "/photos/gallery-01.jpg",     caption: "Atelier — coulisses",     cat: "Lifestyle" },
+  { src: "/photos/gallery-02.jpg",     caption: "Moment training",          cat: "Training" },
+  { src: "/photos/gallery-03.jpg",     caption: "Photoshoot",               cat: "Portrait" },
+  { src: "/photos/gallery-04.jpg",     caption: "En famille de combat",     cat: "Lifestyle" },
+  { src: "/photos/gallery-05.jpg",     caption: "Préparation",              cat: "Training" },
+  { src: "/photos/gallery-06.jpg",     caption: "Hors caméra",              cat: "Lifestyle" },
+  { src: "/photos/gallery-07.jpg",     caption: "Studio",                   cat: "Portrait" },
+  { src: "/photos/gallery-08.jpg",     caption: "Voyage",                   cat: "Lifestyle" },
+  { src: "/photos/gallery-09.jpg",     caption: "Posing",                   cat: "Portrait" },
+  { src: "/photos/gallery-10.jpg",     caption: "Au calme",                 cat: "Lifestyle" },
+  { src: "/photos/gallery-11.jpg",     caption: "Présence",                 cat: "Portrait" },
+  { src: "/photos/gallery-12.jpg",     caption: "Camp",                     cat: "Training" },
+  { src: "/photos/gallery-13.jpg",     caption: "Backstage 2",              cat: "Combat" },
+  { src: "/photos/gallery-14.jpg",     caption: "En mouvement",             cat: "Training" },
+];
+
+const categories = ["Tout", "Combat", "Training", "Portrait", "Lifestyle", "Promo"] as const;
+---
+
+<Base
+  title={`Galerie — ${profile.nickname}`}
+  description="Photos officielles de Paul Dena : training, combats, behind-the-scenes, promos Hexagone MMA."
+>
+  <section class="page-header section">
+    <div class="container">
+      <Reveal>
+        <span class="eyebrow">Galerie</span>
+        <h1>En images</h1>
+        <p class="lead">
+          Portraits, training, combats, promos Hexagone MMA, behind-the-scenes.
+          {photos.length} photos. Clique pour agrandir.
+        </p>
+      </Reveal>
+    </div>
+  </section>
+
+  <section class="section gallery-section">
+    <div class="container">
+      <Reveal>
+        <div class="g-filters">
+          {categories.map((c, i) => (
+            <button class:list={["g-filter", { active: i === 0 }]} data-cat={c}>{c}</button>
+          ))}
+        </div>
+      </Reveal>
+
+      <div class="gallery">
+        {photos.map((p, i) => (
+          <Reveal class="gallery-item" delay={Math.min(i * 30, 400)}>
+            <button type="button" class="gallery-btn" data-src={p.src} data-caption={p.caption} data-cat={p.cat}>
+              <img src={p.src} alt={p.caption} loading="lazy" />
+              <span class="gallery-cat">{p.cat}</span>
+              <span class="gallery-caption">{p.caption}</span>
+            </button>
+          </Reveal>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog">
+    <button class="lightbox-close" type="button" aria-label="Fermer">×</button>
+    <button class="lightbox-nav lightbox-prev" type="button" aria-label="Précédente">‹</button>
+    <img class="lightbox-img" src="" alt="" />
+    <button class="lightbox-nav lightbox-next" type="button" aria-label="Suivante">›</button>
+    <span class="lightbox-caption"></span>
+    <span class="lightbox-counter"></span>
+  </div>
+</Base>
+
+<style>
+  .page-header { padding-top: 4rem; padding-bottom: 2rem; }
+  .eyebrow {
+    display: inline-block;
+    font-family: var(--font-display);
+    color: var(--accent);
+    letter-spacing: 0.22em;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+  }
+  .lead { color: var(--text-dim); font-size: 1.15rem; max-width: 45rem; margin-top: 1rem; }
+
+  .gallery-section { padding-top: 1rem; }
+  .g-filters { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 2rem; }
+  .g-filter {
+    padding: 0.5rem 1.1rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    color: var(--text-dim);
+    cursor: pointer;
+    font-size: 0.88rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-family: var(--font-body);
+    transition: all 0.15s ease;
+  }
+  .g-filter:hover { color: var(--text); border-color: var(--border-strong); }
+  .g-filter.active { background: var(--accent); color: white; border-color: var(--accent); }
+
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1rem;
+  }
+  .gallery-btn {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--bg-card);
+    cursor: zoom-in;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    color: var(--text);
+  }
+  .gallery-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--accent);
+  }
+  .gallery-btn img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    transition: transform 0.35s ease;
+  }
+  .gallery-btn:hover img { transform: scale(1.04); }
+  .gallery-cat {
+    position: absolute;
+    top: 0.6rem;
+    left: 0.6rem;
+    z-index: 1;
+    padding: 0.2rem 0.6rem;
+    background: rgba(10, 10, 10, 0.78);
+    color: white;
+    border-radius: 999px;
+    font-family: var(--font-display);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .gallery-caption {
+    display: block;
+    padding: 0.7rem 1rem;
+    text-align: left;
+    color: var(--text-dim);
+    font-size: 0.85rem;
+    background: var(--bg-card);
+    border-top: 1px solid var(--border);
+  }
+
+  /* LIGHTBOX */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.94);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    padding: 2rem;
+  }
+  .lightbox.open { display: flex; flex-direction: column; gap: 1rem; }
+  .lightbox-img {
+    max-width: min(94vw, 1400px);
+    max-height: 82vh;
+    object-fit: contain;
+    border-radius: var(--radius);
+  }
+  .lightbox-caption { color: #fafafa; font-size: 0.95rem; text-align: center; }
+  .lightbox-counter {
+    color: rgba(255,255,255,0.5);
+    font-size: 0.78rem;
+    font-family: var(--font-display);
+    letter-spacing: 0.15em;
+  }
+  .lightbox-close, .lightbox-nav {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.12);
+    color: white;
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    line-height: 1;
+    transition: background 0.2s ease;
+    padding: 0;
+  }
+  .lightbox-close { top: 1rem; right: 1.25rem; width: 44px; height: 44px; font-size: 1.8rem; }
+  .lightbox-nav { top: 50%; transform: translateY(-50%); width: 52px; height: 52px; font-size: 2.4rem; }
+  .lightbox-prev { left: 1.25rem; }
+  .lightbox-next { right: 1.25rem; }
+  .lightbox-close:hover, .lightbox-nav:hover { background: rgba(255, 255, 255, 0.22); }
+</style>
+
+<script is:inline>
+  (function() {
+    function init() {
+      const lb = document.getElementById('lightbox');
+      if (!lb) return;
+      const img = lb.querySelector('.lightbox-img');
+      const cap = lb.querySelector('.lightbox-caption');
+      const counter = lb.querySelector('.lightbox-counter');
+      const closeBtn = lb.querySelector('.lightbox-close');
+      const prevBtn = lb.querySelector('.lightbox-prev');
+      const nextBtn = lb.querySelector('.lightbox-next');
+
+      let items = [];
+      let currentCat = 'Tout';
+      let currentIdx = 0;
+
+      function refreshItems() {
+        const all = Array.from(document.querySelectorAll('.gallery-btn'));
+        items = currentCat === 'Tout' ? all : all.filter((b) => b.dataset.cat === currentCat);
+      }
+      function open(idx) {
+        refreshItems();
+        if (!items.length) return;
+        currentIdx = Math.max(0, Math.min(idx, items.length - 1));
+        const b = items[currentIdx];
+        img.src = b.dataset.src;
+        img.alt = b.dataset.caption || '';
+        cap.textContent = b.dataset.caption || '';
+        counter.textContent = `${currentIdx + 1} / ${items.length}`;
+        lb.classList.add('open');
+        lb.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      }
+      function close() {
+        lb.classList.remove('open');
+        lb.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        img.src = '';
+      }
+      function prev() { open((currentIdx - 1 + items.length) % items.length); }
+      function next() { open((currentIdx + 1) % items.length); }
+
+      // (Re)bind sur tous les .gallery-btn non encore liés
+      document.querySelectorAll('.gallery-btn:not([data-lb-bound])').forEach((btn, i) => {
+        btn.setAttribute('data-lb-bound', '1');
+        btn.addEventListener('click', () => {
+          refreshItems();
+          const idx = items.indexOf(btn);
+          open(idx === -1 ? 0 : idx);
+        });
+      });
+
+      // Filtres catégories
+      document.querySelectorAll('.g-filter:not([data-bound])').forEach((f) => {
+        f.setAttribute('data-bound', '1');
+        f.addEventListener('click', () => {
+          document.querySelectorAll('.g-filter').forEach((x) => x.classList.remove('active'));
+          f.classList.add('active');
+          currentCat = f.dataset.cat || 'Tout';
+          document.querySelectorAll('.gallery-btn').forEach((b) => {
+            const show = currentCat === 'Tout' || b.dataset.cat === currentCat;
+            b.parentElement.style.display = show ? '' : 'none';
+          });
+        });
+      });
+
+      // Contrôles lightbox (binding une fois par instance, on supprime les anciens listeners en clonant)
+      if (!lb.__bound) {
+        lb.__bound = true;
+        closeBtn?.addEventListener('click', close);
+        prevBtn?.addEventListener('click', prev);
+        nextBtn?.addEventListener('click', next);
+        lb.addEventListener('click', (e) => { if (e.target === lb) close(); });
+      }
+      if (!window.__galleryKeys) {
+        window.__galleryKeys = true;
+        document.addEventListener('keydown', (e) => {
+          if (!document.getElementById('lightbox')?.classList.contains('open')) return;
+          if (e.key === 'Escape') close();
+          else if (e.key === 'ArrowLeft') prev();
+          else if (e.key === 'ArrowRight') next();
+        });
+      }
+    }
+
+    init();
+    document.addEventListener('astro:page-load', init);
+    document.addEventListener('astro:after-swap', init);
+  })();
+</script>

@@ -1,0 +1,378 @@
+---
+// Side nav verticale style Philibert Plaisance — test
+import { profile } from "../data/profile";
+
+const navItems = [
+  { href: "/", label: "Accueil" },
+  { href: "/parcours", label: "Parcours" },
+  { href: "/combats", label: "Combats" },
+  { href: "/videos", label: "Vidéos" },
+  { href: "/galerie", label: "Galerie" },
+  { href: "/sponsors", label: "Sponsors" },
+  { href: "/contact", label: "Contact" },
+];
+---
+
+<aside class="side-nav" aria-label="Navigation latérale">
+  <a href="/" class="side-logo" aria-label={`${profile.nickname} — accueil`}>
+    <img src="/brand/symbol-square.png" alt="" width="40" height="40" />
+  </a>
+
+  <button class="side-burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="side-drawer">
+    <span class="side-burger-bars" aria-hidden="true">
+      <span></span><span></span><span></span>
+    </span>
+    <span class="side-burger-label">Menu</span>
+  </button>
+
+  <!-- Sélecteur de thème vertical (centre de la sidebar) -->
+  <div class="side-theme" role="group" aria-label="Choix du thème">
+    <button type="button" data-theme="light" aria-label="Thème clair" title="Clair">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="4"/>
+        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+      </svg>
+    </button>
+    <button type="button" data-theme="dim" aria-label="Thème tamisé" title="Tamisé">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="9"/>
+        <path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor"/>
+      </svg>
+    </button>
+    <button type="button" data-theme="dark" aria-label="Thème sombre" title="Sombre">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="side-icons">
+    <a href="mailto:contact@pauldena.fr" class="side-icon" aria-label="Envoyer un email">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="5" width="18" height="14" rx="2"/>
+        <path d="M3 7l9 6 9-6"/>
+      </svg>
+    </a>
+    <a href="https://www.instagram.com/pauldenisnavero/" target="_blank" rel="noopener noreferrer" class="side-icon" aria-label="Instagram">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="18" height="18" rx="5"/>
+        <circle cx="12" cy="12" r="4"/>
+        <circle cx="17.5" cy="6.5" r="0.9" fill="currentColor"/>
+      </svg>
+    </a>
+    <a href="https://www.youtube.com/@pauldenisnavero" target="_blank" rel="noopener noreferrer" class="side-icon" aria-label="YouTube">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+        <path d="M22.5 6.5c-.3-1.1-1.2-2-2.3-2.3C18.1 4 12 4 12 4s-6.1 0-8.2.2c-1.1.3-2 1.2-2.3 2.3C1.3 8.5 1.3 12 1.3 12s0 3.5.2 5.5c.3 1.1 1.2 2 2.3 2.3 2.1.2 8.2.2 8.2.2s6.1 0 8.2-.2c1.1-.3 2-1.2 2.3-2.3.2-2 .2-5.5.2-5.5s0-3.5-.2-5.5zM10 15.5v-7l6 3.5-6 3.5z"/>
+      </svg>
+    </a>
+  </div>
+</aside>
+
+<div class="side-suivez" aria-hidden="true">Suivez-nous</div>
+
+<nav id="side-drawer" class="side-drawer" aria-hidden="true">
+  <div class="side-drawer-inner">
+    <ul>
+      {navItems.map((item) => (
+        <li><a href={item.href}>{item.label}</a></li>
+      ))}
+    </ul>
+    <div class="side-drawer-cta">
+      <a href="/sponsors" class="btn">Travailler avec Paul</a>
+    </div>
+  </div>
+</nav>
+
+<style>
+  .side-nav {
+    position: fixed;
+    top: 1.25rem;
+    bottom: 1.25rem;
+    left: 1.25rem;
+    width: 80px;
+    z-index: 50;
+    background: #0a0a0a;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 14px;
+    box-shadow:
+      0 0 120px 20px rgba(255,255,255,0.16),
+      0 0 60px 4px rgba(255,255,255,0.10),
+      0 0 24px rgba(255,255,255,0.06),
+      0 18px 40px rgba(0,0,0,0.55),
+      inset 0 0 0 1px rgba(255,255,255,0.04);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.4rem 0;
+    gap: 1.1rem;
+    color: #ffffff;
+  }
+  /* Liseré rouge subtil sur l'arête droite (à l'intérieur de la pilule) */
+  .side-nav::after {
+    content: "";
+    position: absolute;
+    top: 12%; bottom: 12%; right: -1px;
+    width: 2px;
+    background: linear-gradient(180deg, transparent, var(--accent), transparent);
+    pointer-events: none;
+    border-radius: 2px;
+  }
+  .side-logo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    padding: 4px;
+  }
+  .side-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    /* Le PNG est noir sur transparent → on l'inverse en blanc pour la sidebar noire */
+    filter: invert(1);
+  }
+
+  .side-burger {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    width: 56px;
+    padding: 0.6rem 0;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #ffffff;
+    margin-top: 0.5rem;
+  }
+  .side-burger-bars {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 22px;
+  }
+  .side-burger-bars span {
+    display: block;
+    height: 2px;
+    background: #ffffff;
+    border-radius: 1px;
+    transition: transform 0.25s ease, background 0.2s ease, opacity 0.2s ease;
+  }
+  .side-burger-bars span:nth-child(1) { width: 100%; }
+  .side-burger-bars span:nth-child(2) { width: 70%; background: var(--accent); }
+  .side-burger-bars span:nth-child(3) { width: 100%; }
+  .side-burger-label {
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #ffffff;
+  }
+  .side-burger[aria-expanded="true"] .side-burger-bars span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+  .side-burger[aria-expanded="true"] .side-burger-bars span:nth-child(2) { opacity: 0; }
+  .side-burger[aria-expanded="true"] .side-burger-bars span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+  /* Theme toggle vertical au centre de la sidebar */
+  .side-theme {
+    margin-top: auto;
+    margin-bottom: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 4px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 999px;
+  }
+  .side-theme button {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: rgba(255,255,255,0.55);
+    border-radius: 999px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+  .side-theme button:hover { color: #ffffff; }
+  .side-theme button[aria-pressed="true"] {
+    background: var(--accent);
+    color: #ffffff;
+  }
+
+  .side-icons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .side-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.06);
+    color: #ffffff;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  }
+  .side-icon:hover { background: var(--accent); color: white; transform: translateY(-2px); }
+
+  /* "Suivez-nous" rotated on the right edge */
+  .side-suivez {
+    position: fixed;
+    right: 0.6rem;
+    top: 50%;
+    transform: translateY(-50%) rotate(90deg);
+    transform-origin: center;
+    z-index: 40;
+    font-family: var(--font-display);
+    color: var(--text-dim);
+    letter-spacing: 0.3em;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    pointer-events: none;
+  }
+
+  /* Drawer (menu déployé) — couvre tout l'écran, la sidebar reste visible en overlay */
+  .side-drawer {
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 10, 10, 0.94);
+    backdrop-filter: blur(10px);
+    z-index: 49;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+  .side-drawer.open { opacity: 1; pointer-events: auto; }
+  .side-drawer-inner {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 3rem 4rem 3rem calc(80px + 2.5rem + 3rem);
+    max-width: 900px;
+  }
+  .side-drawer ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.5rem; }
+  .side-drawer a {
+    display: inline-block;
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 3.6rem);
+    letter-spacing: 0.02em;
+    color: rgba(255,255,255,0.85);
+    text-transform: uppercase;
+    line-height: 1.05;
+    padding: 0.3rem 0;
+    transition: color 0.15s ease, transform 0.15s ease;
+  }
+  .side-drawer a:hover { color: var(--accent); transform: translateX(8px); }
+  .side-drawer-cta { margin-top: 2rem; }
+  .side-drawer-theme {
+    margin-top: 2.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+  }
+  .side-drawer-theme-label {
+    font-family: var(--font-display);
+    color: rgba(255,255,255,0.55);
+    letter-spacing: 0.22em;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+  }
+  /* Toggle visible sur fond sombre du drawer */
+  .side-drawer-theme .theme-toggle {
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(255,255,255,0.15);
+  }
+  .side-drawer-theme .theme-toggle button { color: rgba(255,255,255,0.7); }
+  .side-drawer-theme .theme-toggle button:hover { color: white; }
+
+  @media (max-width: 800px) {
+    .side-nav { top: 0.8rem; bottom: 0.8rem; left: 0.8rem; width: 66px; padding: 1rem 0; gap: 0.7rem; border-radius: 12px; }
+    .side-burger-label { display: none; }
+    .side-suivez { display: none; }
+    .side-drawer-inner { padding: 2rem 1.5rem 2rem calc(66px + 1.5rem + 1.5rem); }
+  }
+</style>
+
+<script is:inline>
+  (function() {
+    // Helper close/open globaux (réutilisables sans dépendre des closures)
+    function closeDrawer() {
+      const burger = document.querySelector('.side-burger');
+      const menu = document.getElementById('side-drawer');
+      if (!burger || !menu) return;
+      burger.setAttribute('aria-expanded', 'false');
+      menu.setAttribute('aria-hidden', 'true');
+      menu.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    function openDrawer() {
+      const burger = document.querySelector('.side-burger');
+      const menu = document.getElementById('side-drawer');
+      if (!burger || !menu) return;
+      burger.setAttribute('aria-expanded', 'true');
+      menu.setAttribute('aria-hidden', 'false');
+      menu.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function toggleDrawer() {
+      const burger = document.querySelector('.side-burger');
+      if (!burger) return;
+      if (burger.getAttribute('aria-expanded') === 'true') closeDrawer(); else openDrawer();
+    }
+
+    function applyTheme(t) {
+      document.documentElement.setAttribute('data-theme', t);
+      try { localStorage.setItem('theme', t); } catch (e) {}
+      document.querySelectorAll('.side-theme button').forEach((b) => {
+        b.setAttribute('aria-pressed', b.dataset.theme === t ? 'true' : 'false');
+      });
+    }
+
+    function bind() {
+      // Sidebar burger
+      document.querySelectorAll('.side-burger:not([data-bound])').forEach((b) => {
+        b.setAttribute('data-bound', '1');
+        b.addEventListener('click', (e) => { e.preventDefault(); toggleDrawer(); });
+      });
+      // Liens du drawer ferment au clic
+      document.querySelectorAll('#side-drawer a:not([data-bound])').forEach((a) => {
+        a.setAttribute('data-bound', '1');
+        a.addEventListener('click', () => closeDrawer());
+      });
+      // Theme toggle (vertical dans la sidebar)
+      document.querySelectorAll('.side-theme button:not([data-bound])').forEach((btn) => {
+        btn.setAttribute('data-bound', '1');
+        btn.addEventListener('click', () => applyTheme(btn.dataset.theme));
+      });
+      // Sync l'état actuel au chargement
+      const current = document.documentElement.getAttribute('data-theme') || 'light';
+      document.querySelectorAll('.side-theme button').forEach((b) => {
+        b.setAttribute('aria-pressed', b.dataset.theme === current ? 'true' : 'false');
+      });
+    }
+
+    // Global ESC listener (binding une seule fois)
+    if (!window.__sideNavEscBound) {
+      window.__sideNavEscBound = true;
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeDrawer(); });
+    }
+
+    bind();
+    // Astro view transitions : ré-attache sur chaque navigation
+    document.addEventListener('astro:page-load', bind);
+    document.addEventListener('astro:after-swap', () => {
+      // Toujours fermer le drawer après une navigation
+      closeDrawer();
+      bind();
+    });
+  })();
+</script>
