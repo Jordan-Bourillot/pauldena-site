@@ -300,9 +300,14 @@ const daysToFight = nextDate ? Math.max(0, Math.ceil((nextDate.getTime() - today
     background: var(--hero-veil);
   }
   .hero-inner {
-    max-width: 900px;
+    max-width: 640px;
     position: relative;
     z-index: 2;
+    margin-left: 0;
+    margin-right: auto;
+  }
+  @media (max-width: 880px) {
+    .hero-inner { max-width: 100%; }
   }
   .eyebrow {
     display: inline-block;
